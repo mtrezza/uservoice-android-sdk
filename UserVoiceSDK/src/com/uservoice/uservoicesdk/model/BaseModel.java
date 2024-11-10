@@ -106,6 +106,7 @@ public class BaseModel {
         return map;
     }
 
+    @SuppressWarnings("unchecked")
     protected JSONObject serializeMap(Map<String, Object> map) throws JSONException {
         JSONObject object = new JSONObject();
         for (String key : map.keySet()) {

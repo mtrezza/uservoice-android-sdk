@@ -41,3 +41,4 @@ modules.xml
 #gradlew.bat
 #gradle/
 build_file_checksums.ser
+/.idea/sonarlint
