@@ -42,3 +42,4 @@ modules.xml
 #gradle/
 build_file_checksums.ser
 /.idea/sonarlint
+.idea/appInsightsSettings.xml
