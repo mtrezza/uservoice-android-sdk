@@ -36,10 +36,6 @@ android {
         targetSdkVersion 28
         minSdkVersion 17
     }
-
-    tasks.withType(JavaCompile) {
-        options.compilerArgs << "-Xlint:unchecked"
-    }
 }
 
 afterEvaluate {
@@ -48,7 +44,7 @@ afterEvaluate {
             create('mavenJava', MavenPublication) {
                 groupId = 'com.github.mtrezza'
                 artifactId = 'uservoice-android-sdk'
-                version = '1.3.1'
+                version = '1.3.2'
 
                 // Add the AAR file produced by the Android build
                 artifact("$buildDir/outputs/aar/${project.name}-release.aar")
@@ -58,7 +54,19 @@ afterEvaluate {
                     classifier = 'sources'
                 }
 
-                // Additional POM details can be added here if needed (licenses, developers, etc.)
+                // Adding transitive dependencies to the POM file
+                pom.withXml {
+                    def dependenciesNode = asNode().appendNode('dependencies')
+                    configurations.implementation.allDependencies.each { dependency ->
+                        if (dependency.group != null && dependency.version != null) {
+                            def dependencyNode = dependenciesNode.appendNode('dependency')
+                            dependencyNode.appendNode('groupId', dependency.group)
+                            dependencyNode.appendNode('artifactId', dependency.name)
+                            dependencyNode.appendNode('version', dependency.version)
+                            dependencyNode.appendNode('scope', 'compile')
+                        }
+                    }
+                }
             }
         }
 
